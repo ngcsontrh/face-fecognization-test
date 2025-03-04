@@ -2,7 +2,7 @@ import os
 import cv2 as cv
 import matplotlib.pyplot as plt
 from mtcnn.mtcnn import MTCNN
-from keras_facenet import FaceNet
+from arcface import ArcFace
 import numpy as np
 import face_searching
 
@@ -10,7 +10,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 capture = cv.VideoCapture(0)
 detector = MTCNN()
-facenet = FaceNet()
+arcface = ArcFace()
 
 if not capture.isOpened():
     print("❌ Không thể mở camera")
@@ -35,9 +35,9 @@ while True:
         frame_count+=1
         face_img = frame[y: y+h, x: x+w]
         if face_img.shape[0] > 0 and face_img.shape[1] > 0 and frame_count % 10 == 0:
-            face_img = cv.resize(face_img, (160, 160))
+            face_img = cv.resize(face_img, (112, 112))
             face_img = np.expand_dims(face_img, axis=0)
-            ypred = facenet.embeddings(face_img)
+            ypred = arcface.calc_emb(face_img)
             frame_count = 1
             predicted_name, confidence = face_searching.recognize_face_faiss(ypred)
             print(f"Đối tượng: {predicted_name}")
