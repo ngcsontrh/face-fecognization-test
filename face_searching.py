@@ -33,9 +33,3 @@ def recognize_face_faiss(face_vector, top_k=1, threshold=1.0):
         return "Unknown", best_distance
 
     return index_to_name[best_index], best_distance
-
-# ==== Bước 4: Test nhận diện ====
-# new_face = np.random.rand(dimension)  # Vector từ FaceNet
-# predicted_name, confidence = recognize_face_faiss(new_face)
-
-# print(f"Predicted: {predicted_name} (Distance: {confidence:.2f})")

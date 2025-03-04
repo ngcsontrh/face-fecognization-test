@@ -41,7 +41,6 @@ while True:
             frame_count = 1
             predicted_name, confidence = face_searching.recognize_face_faiss(ypred)
             print(f"Đối tượng: {predicted_name}")
-
     frame_bgr = cv.cvtColor(frame_rgb, cv.COLOR_RGB2BGR)  # Chuyển lại về BGR trước khi hiển thị
     cv.imshow("Camera", frame_bgr)
 
