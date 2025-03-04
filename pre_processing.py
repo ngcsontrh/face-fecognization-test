@@ -3,14 +3,14 @@ import cv2 as cv
 import numpy as np
 import pandas as pd
 from mtcnn.mtcnn import MTCNN
-from keras_facenet import FaceNet
+from arcface import ArcFace
 
 # Ẩn cảnh báo TensorFlow
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # Khởi tạo model
 detector = MTCNN()
-facenet = FaceNet()
+arcface = ArcFace()
 
 # Danh sách để lưu dữ liệu
 data = []
@@ -40,11 +40,11 @@ for root, dirs, files in os.walk(folder_path):
             # Cắt ảnh khuôn mặt
             face_img = img_rgb[y:y+h, x:x+w]
             if face_img.shape[0] > 0 and face_img.shape[1] > 0:
-                face_img = cv.resize(face_img, (160, 160))
+                face_img = cv.resize(face_img, (112, 112))
                 face_img = np.expand_dims(face_img, axis=0)
 
                 # Trích xuất embedding
-                ypred = facenet.embeddings(face_img)
+                ypred = arcface.calc_emb(face_img)
 
                 # Lưu vào danh sách với nhãn (tên thư mục)
                 data.append([label] + ypred.flatten().tolist())
